@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+set -ex
+
+indir=data/S2A_MSIL1C_20150726T105026_N0204_R051_T31TDH_20150726T105856.SAFE/GRANULE/L1C_T31TDH_A000477_20150726T105856/IMG_DATA
+outdir=tests/data/IMG_DATA
+bounds="399960 4690200 402960 4693200"
+
+for infile in $indir/*.jp2; do
+    outfile=$outdir/$(basename $infile)
+    rio clip $infile $outfile --bounds "$bounds"
+done
