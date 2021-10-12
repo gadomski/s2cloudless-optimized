@@ -1,0 +1,5 @@
+channels:
+  - conda-forge
+dependencies:
+  - cmake
+  - llvm-openmp=11.1.0=hda6cdc1_1
