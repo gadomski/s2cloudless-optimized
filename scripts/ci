@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+set -ex
+
+pip install .
+pip install -r requirements-dev.txt
+pytest tests
