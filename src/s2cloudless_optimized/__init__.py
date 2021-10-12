@@ -5,7 +5,9 @@ from .enums import HighLow
 
 
 def run(
-    directory: str, resolution: Optional[Union[float, HighLow]] = None
+    directory: str,
+    resolution: Optional[Union[float, HighLow]] = None,
+    output_directory: Optional[str] = None,
 ) -> OutputPaths:
     """Runs s2cloudless-optimized on the Sentinel2 L1C files in the given directory.
 
@@ -14,4 +16,4 @@ def run(
     Returns the resultant paths.
     """
     granule = Granule(directory)
-    return granule.run(resolution)
+    return granule.run(resolution, output_directory=output_directory)

@@ -65,11 +65,14 @@ class Granule:
             )
 
     def run(
-        self, resolution: Optional[Union[float, HighLow]], compression: str = "lzw"
+        self,
+        resolution: Optional[Union[float, HighLow]],
+        compression: str = "lzw",
+        output_directory: Optional[str] = None,
     ) -> OutputPaths:
         """Runs s2cloudless at the given resolution."""
         prediction = self._predict(resolution)
-        return self._write(prediction, compression)
+        return self._write(prediction, compression, output_directory)
 
     def load(self, resolution: Optional[Union[float, HighLow]]) -> numpy.ndarray:
         """Loads in all image data at the given resolution."""
@@ -111,13 +114,15 @@ class Granule:
             profile=profile,
         )
 
-    def _output_paths(self) -> OutputPaths:
+    def _output_paths(self, output_directory: Optional[str] = None) -> OutputPaths:
         """Returns the outputs paths in the granule IMG_DATA directory."""
-        img_path = self.paths[BANDS[0]]
-        base = "_".join(img_path.split("_")[:-1])
+        jp2_path = self.paths[BANDS[0]]
+        if not output_directory:
+            output_directory = os.path.dirname(jp2_path)
+        base = "_".join(os.path.basename(jp2_path).split("_")[:-1])
         return OutputPaths(
-            probabilities=f"{base}_probabilities.tif",
-            cloud_mask=f"{base}_cloud_mask.tif",
+            probabilities=os.path.join(output_directory, f"{base}_probabilities.tif"),
+            cloud_mask=os.path.join(output_directory, f"{base}_cloud_mask.tif"),
         )
 
     def _profile(self, resolution: Optional[Union[float, HighLow]]) -> Profile:
@@ -154,14 +159,19 @@ class Granule:
             raise ValueError(f"Invalid resolution specifier: {resolution}")
         return Profile(profile=profile, shape=(profile["height"], profile["width"]))
 
-    def _write(self, prediction: Prediction, compression: str) -> OutputPaths:
+    def _write(
+        self,
+        prediction: Prediction,
+        compression: str,
+        output_directory: Optional[str] = None,
+    ) -> OutputPaths:
         cloud_mask = utils.cloud_mask(prediction.probabilities)
         cloud_mask[prediction.mask] = 255
         probabilities = numpy.clip(prediction.probabilities * 100, 0, 100).astype(
             numpy.uint8
         )
         probabilities[prediction.mask] = 255
-        output_paths = self._output_paths()
+        output_paths = self._output_paths(output_directory)
         profile = prediction.profile.profile.copy()
         profile["driver"] = "COG"
         profile["nodata"] = 255
