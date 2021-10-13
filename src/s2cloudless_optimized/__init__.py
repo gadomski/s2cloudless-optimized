@@ -6,6 +6,7 @@ from .granule import Granule, OutputPaths
 
 def run(
     directory: str,
+    directory_is_granule: Optional[bool] = True,
     resolution: Optional[Union[float, HighLow]] = None,
     output_directory: Optional[str] = None,
 ) -> OutputPaths:
@@ -15,5 +16,8 @@ def run(
 
     Returns the resultant paths.
     """
-    granule = Granule(directory)
+    if directory_is_granule:
+        granule = Granule.from_granule_path(directory)
+    else:
+        granule = Granule(directory)
     return granule.run(resolution, output_directory=output_directory)

@@ -39,23 +39,28 @@ class Granule:
     """A dictionary of band -> path"""
     paths: Dict[str, str]
 
-    def __init__(self, directory: str):
-        """Creates from a directory containing IMG_DATA"""
-        img_directory = os.path.join(directory, "IMG_DATA")
-        if not os.path.isdir(img_directory):
+    @classmethod
+    def from_granule_path(cls, directory: str) -> "Granule":
+        """Creates a granule from a directory containing `IMG_DATA`."""
+        img_data_directory = os.path.join(directory, "IMG_DATA")
+        if not os.path.isdir(img_data_directory):
             raise ValueError(
                 f"{directory} is not a sentinel2 granule, does not contain an 'IMG_DATA' directory"
             )
+        return cls(img_data_directory)
+
+    def __init__(self, directory: str):
+        """Creates from a directory containing jp2 images."""
         self.paths = dict()
         bands = set()
-        for file_name in os.listdir(img_directory):
+        for file_name in os.listdir(directory):
             basename, ext = os.path.splitext(file_name)
             if ext != ".jp2":
                 continue
             parts = basename.split("_")
             band = parts[-1]
             if band in BANDS:
-                self.paths[band] = os.path.join(img_directory, file_name)
+                self.paths[band] = os.path.join(directory, file_name)
                 bands.add(band)
         if len(self.paths) != len(BANDS):
             missing_bands = set(BANDS) - bands
