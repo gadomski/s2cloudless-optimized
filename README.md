@@ -64,6 +64,20 @@ import s2cloudless_optimized
 directory = "S2A_MSIL1C_20150726T105026_N0204_R051_T31TDH_20150726T105856.SAFE/GRANULE/L1C_T31TDH_A000477_20150726T105856"
 output_paths = s2cloudless_optimized.run(directory)
 ```
+
+## Development
+
+Here's how I do it:
+
+```shell
+$ git clone https://github.com/gadomski/s2cloudless-optimized
+$ cd s2cloudless-optimized
+$ mkvirtualenv s2cloudless-optimized
+$ pip install -e .
+$ pip install -r requirements-dev.txt
+$ pre-commit install
+```
+
 ## License
 
 This work is available under the same license as sentinel-hub/sentinel2-cloud-detector, the [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0)
