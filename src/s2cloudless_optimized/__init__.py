@@ -1,7 +1,7 @@
 from typing import Optional, Union
 
-from .granule import Granule, OutputPaths
 from .enums import HighLow
+from .granule import Granule, OutputPaths
 
 
 def run(
