@@ -1,15 +1,14 @@
 import dataclasses
 import os
-import pkg_resources
-from typing import Optional, Union, Dict, Tuple, Iterator, Any
+from typing import Any, Dict, Iterator, Optional, Tuple, Union
 
-from lightgbm import Booster
-import rasterio
 import numpy
+import pkg_resources
+import rasterio
+from lightgbm import Booster
 
-from .enums import HighLow
 from . import utils
-
+from .enums import HighLow
 
 BANDS = ["B01", "B02", "B04", "B05", "B08", "B8A", "B09", "B10", "B11", "B12"]
 DEFAULT_RESOLUTION = HighLow.HIGH

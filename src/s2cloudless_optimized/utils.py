@@ -1,8 +1,7 @@
-from typing import Dict, Any
+from typing import Any, Dict
 
-import rasterio
 import numpy
-
+import rasterio
 import scipy.ndimage.filters
 import skimage.morphology
 

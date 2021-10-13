@@ -60,6 +60,7 @@ $ s2cloudless S2A_MSIL1C_20150726T105026_N0204_R051_T31TDH_20150726T105856.SAFE/
 
 ```python
 import s2cloudless_optimized
+
 directory = "S2A_MSIL1C_20150726T105026_N0204_R051_T31TDH_20150726T105856.SAFE/GRANULE/L1C_T31TDH_A000477_20150726T105856"
 output_paths = s2cloudless_optimized.run(directory)
 ```
