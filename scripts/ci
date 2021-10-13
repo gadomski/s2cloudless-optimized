@@ -4,4 +4,5 @@ set -ex
 
 pip install .
 pip install -r requirements-dev.txt
+pre-commit run --all-files
 pytest tests
