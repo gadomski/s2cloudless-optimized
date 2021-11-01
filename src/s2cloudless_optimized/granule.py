@@ -99,7 +99,7 @@ class Granule:
     def _predict(self, resolution: Optional[Union[float, HighLow]]) -> Prediction:
         profile = self._profile(resolution)
         s2cloudless_shape = (profile.shape[0] * profile.shape[1], len(BANDS))
-        data = numpy.empty(s2cloudless_shape)
+        data = numpy.empty(s2cloudless_shape, dtype=numpy.float32)
         mask = numpy.full(profile.shape, False)
         for i, band_data in enumerate(self._iter_band_data(profile.shape)):
             mask |= (band_data == 0) | (
