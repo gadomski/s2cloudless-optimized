@@ -104,12 +104,15 @@ class Granule:
                 band_data == 65535
             )  # 0 is nodata, 65536 is saturated
             data[:, i] = band_data.reshape(s2cloudless_shape[0])
+        mask_vector = mask.reshape(s2cloudless_shape[0])
+        data = data[~mask_vector, :]
 
         model_filename = pkg_resources.resource_filename(
             __name__, "pixel_s2_cloud_detector_lightGBM_v0.1.txt"
         )
         booster = Booster(model_file=model_filename)
-        prediction = booster.predict(data)
+        prediction = numpy.empty(s2cloudless_shape[0])
+        prediction[~mask_vector] = booster.predict(data)
         return Prediction(
             probabilities=prediction.reshape(profile.shape),
             mask=mask,
