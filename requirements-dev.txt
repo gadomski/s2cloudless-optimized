@@ -1,3 +1,5 @@
+mypy
 pre-commit
 pytest
 shed
+types-setuptools
