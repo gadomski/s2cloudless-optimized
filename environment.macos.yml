@@ -3,3 +3,4 @@ channels:
 dependencies:
   - cmake
   - llvm-openmp=11.1.0=hda6cdc1_1
+  - python=3.7|3.8|3.9
