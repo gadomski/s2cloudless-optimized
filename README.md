@@ -13,12 +13,12 @@ $ pip install git+https://github.com/gadomski/s2cloudless-optimized
 ### macOS
 
 On macOS, the upstream library LightGBM is [incompatible with the Homebrew-provided libomp](https://github.com/microsoft/LightGBM/issues/4229).
-This means you will need to use conda to install OpenMP before installing the Python package:
+This means you will need to use conda to install OpenMP before installing the Python package, and build the LightGBM wheel from source:
 
 ```shell
 $ conda install --name s2cloudless-optimized -c conda-forge -y llvm-openmp
 $ conda activate s2cloudless-optimized
-$ pip install git+https://github.com/gadomski/s2cloudless-optimized
+$ pip install git+https://github.com/gadomski/s2cloudless-optimized --no-binary lightgbm
 ```
 
 
