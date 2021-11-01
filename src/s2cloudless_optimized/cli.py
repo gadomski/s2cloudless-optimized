@@ -33,5 +33,5 @@ def main(
     else:
         resolution_resolved = None
     s2cloudless_optimized.run(
-        directory, resolution_resolved, output_directory=output_directory
+        directory, resolution=resolution_resolved, output_directory=output_directory
     )
