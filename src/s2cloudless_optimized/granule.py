@@ -8,10 +8,8 @@ import rasterio
 from lightgbm import Booster
 
 from . import utils
+from .constants import BANDS, DEFAULT_COMPRESSION, DEFAULT_RESOLUTION
 from .enums import HighLow
-
-BANDS = ["B01", "B02", "B04", "B05", "B08", "B8A", "B09", "B10", "B11", "B12"]
-DEFAULT_RESOLUTION = HighLow.HIGH
 
 
 @dataclasses.dataclass
@@ -70,8 +68,8 @@ class Granule:
 
     def run(
         self,
-        resolution: Optional[Union[float, HighLow]],
-        compression: str = "lzw",
+        resolution: Union[float, HighLow] = DEFAULT_RESOLUTION,
+        compression: str = DEFAULT_COMPRESSION,
         output_directory: Optional[str] = None,
     ) -> OutputPaths:
         """Runs s2cloudless at the given resolution."""
@@ -180,7 +178,8 @@ class Granule:
         profile["driver"] = "COG"
         profile["nodata"] = 255
         profile["dtype"] = "uint8"
-        profile["compression"] = compression
+        profile["predictor"] = "YES"
+        profile["compress"] = compression
         utils.write(output_paths.probabilities, probabilities, profile)
         utils.write(output_paths.cloud_mask, cloud_mask, profile)
         return output_paths
