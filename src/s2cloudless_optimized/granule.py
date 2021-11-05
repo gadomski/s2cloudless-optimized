@@ -162,6 +162,9 @@ class Granule:
             profile = profiles[max_resolution]
         else:
             raise ValueError(f"Invalid resolution specifier: {resolution}")
+        del profile["blockxsize"]
+        del profile["blockysize"]
+        del profile["tiled"]
         return Profile(profile=profile, shape=(profile["height"], profile["width"]))
 
     def _write(
