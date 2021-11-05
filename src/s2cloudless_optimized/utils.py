@@ -8,6 +8,8 @@ import skimage.morphology
 
 logger = logging.getLogger(__name__)
 
+KEYS_TO_REMOVE = {"blockxsize", "blockysize", "tiled"}
+
 
 def cloud_mask(
     probabilities: numpy.ndarray,
@@ -30,6 +32,9 @@ def cloud_mask(
 
 
 def write(path: str, data: numpy.ndarray, profile: Dict[str, Any]):
+    for key in KEYS_TO_REMOVE:
+        if key in profile:
+            del profile[key]
     logger.info(f"Writing {path} with profile: {profile}")
     with rasterio.open(path, "w", **profile) as dataset:
         dataset.write(data, 1)
