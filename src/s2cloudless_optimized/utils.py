@@ -1,9 +1,12 @@
+import logging
 from typing import Any, Dict
 
 import numpy
 import rasterio
 import scipy.ndimage.filters
 import skimage.morphology
+
+logger = logging.getLogger(__name__)
 
 
 def cloud_mask(
@@ -27,5 +30,6 @@ def cloud_mask(
 
 
 def write(path: str, data: numpy.ndarray, profile: Dict[str, Any]):
+    logger.info(f"Writing {path} with profile: {profile}")
     with rasterio.open(path, "w", **profile) as dataset:
         dataset.write(data, 1)
